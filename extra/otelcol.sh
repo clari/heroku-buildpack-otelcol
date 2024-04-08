@@ -2,7 +2,8 @@
 
 export PATH="$PATH:$HOME/bin"
 
-APP_OTELCOL="/app/otelcol"
+FOO="${VARIABLE:-default}"
+APP_OTELCOL="${OTEL_CONFIG_PATH:-/app/otelcol}"
 
 PRERUN_SCRIPT="$APP_OTELCOL/prerun.sh"
 if [ -e "$PRERUN_SCRIPT" ]; then
