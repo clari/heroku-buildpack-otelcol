@@ -13,5 +13,12 @@ fi
 if [ -n "$DISABLE_OTELCOL" ]; then
   echo "The OpenTelemetry Collector agent has been disabled. Unset the $DISABLE_OTELCOL or set missing environment variables."
 else
-  bash -c "otelcol --config $APP_OTELCOL/config.yml 2>&1 &"
+  # Default otel startup args
+  command="otelcol --config $APP_OTELCOL/config.yml"
+  if [ -n "$OTEL_DISABLE_STDOUT" ]; then
+    # If swallow stdout enabled, send all output to /dev/null
+    # This is so the heroku terminal doesn't become too spammy
+    command="$command > /dev/null"
+  fi
+  bash -c "$command 2>&1 &"
 fi
